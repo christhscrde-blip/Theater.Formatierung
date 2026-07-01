@@ -8,37 +8,8 @@ from docx import Document
 
 from .difficult_words import find_difficult_words
 from .models import AnalysisReport, ClassifiedParagraph, ParagraphType
+from .speaker_parser import CHARACTER_ALIASES, normalize_name, parse_speaker_line
 from .verifier import visible_text_hash
-
-CHARACTER_ALIASES: dict[str, str] = {
-    "franz": "Franz",
-    "franz von moor": "Franz",
-    "d. a. moor": "Der alte Moor",
-    "der alte moor": "Der alte Moor",
-    "alter moor": "Der alte Moor",
-    "karl v. moor": "Karl von Moor",
-    "karl von moor": "Karl von Moor",
-    "moor": "Karl von Moor",
-    "amalia": "Amalia",
-    "spiegelberg": "Spiegelberg",
-    "schweizer": "Schweizer",
-    "roller": "Roller",
-    "razmann": "Razmann",
-    "schufterle": "Schufterle",
-    "hermann": "Hermann",
-    "daniel": "Daniel",
-    "kosinsky": "Kosinsky",
-    "schwarz": "Schwarz",
-    "grimm": "Grimm",
-    "ein räuber": "Ein Räuber",
-    "räuber": "Räuber",
-    "alle": "Alle",
-    "ein bedienter": "Ein Bedienter",
-    "bedienter": "Bedienter",
-    "pastor moser": "Pastor Moser",
-    "moser": "Moser",
-    "pater": "Pater",
-}
 
 LOCATION_KEYWORDS = (
     "saal",
@@ -54,13 +25,6 @@ LOCATION_KEYWORDS = (
     "moorischen",
     "böhmischen",
 )
-
-
-def normalize_name(text: str) -> str:
-    text = text.strip()
-    text = re.sub(r"\s+", " ", text)
-    text = text.strip(".:; ")
-    return text.lower()
 
 
 def is_page_marker(text: str) -> bool:
@@ -95,33 +59,6 @@ def is_location(text: str) -> bool:
         return False
     lowered = stripped.lower()
     return any(keyword in lowered for keyword in LOCATION_KEYWORDS)
-
-
-def parse_speaker_line(text: str) -> dict[str, str] | None:
-    stripped = text.strip()
-    lowered = stripped.lower()
-
-    for alias in sorted(CHARACTER_ALIASES, key=len, reverse=True):
-        if not lowered.startswith(alias):
-            continue
-
-        raw_name = stripped[: len(alias)].strip()
-        remainder = stripped[len(alias) :]
-        match = re.match(
-            r"^\s*(?P<stage>\([^)]*\))?\s*[\.:]\s*(?P<after>.*)$",
-            remainder,
-        )
-        if not match:
-            continue
-
-        return {
-            "raw": raw_name,
-            "canonical": CHARACTER_ALIASES[alias],
-            "stage_inline": (match.group("stage") or "").strip(),
-            "after": (match.group("after") or "").strip(),
-        }
-
-    return None
 
 
 def is_stage_only(text: str) -> bool:
