@@ -53,10 +53,8 @@ python -m src.cli analyse samples/die_raeuber.docx --out reports
 
 ## Formatierung ausführen
 
-```bash
-python -m src.cli format samples/die_raeuber.docx --out output/die_raeuber_formatiert.docx --reports reports
-```
+Die Formatierungs-CLI ist noch nicht implementiert. Bis zur Umsetzung der Formatierungs-Engine ist nur der Analysebefehl lauffähig.
 
 ## Status
 
-Aktuell ist die Projektstruktur angelegt. Als nächstes wird die Klassifikation stabilisiert, dann die Formatierungs-Engine gebaut und mit Tests abgesichert.
+Aktuell sind Projektstruktur, Analyse-CLI, Klassifikation, Verifier und die Basis des internen `DocumentModel` angelegt. Als nächstes werden Klassifikation und Formatierungs-Engine weiter stabilisiert und mit Tests abgesichert.
