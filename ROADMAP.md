@@ -62,23 +62,6 @@ Erfolgskriterium:
 - Styles können geändert werden, ohne Python-Code anzufassen
 - Style-Dateien werden validiert und liefern typisierte Style-Objekte
 
-
-## v0.3.5 – FormattingPlan
-
-Status: umgesetzt
-
-Ziele:
-
-- `DocumentModel` und Style Engine über eine rendererunabhängige Planungsschicht verbinden – umgesetzt
-- Formatierungsläufe pro Textsegment erzeugen – umgesetzt
-- Sichtbare Textintegrität im Plan erneut prüfen – umgesetzt
-- Renderer-Implementierung vermeiden – umgesetzt
-
-Erfolgskriterium:
-
-- Der spätere Formatter/Renderer kann gegen einen geprüften Plan arbeiten
-- Keine Farben, Schriftgrößen oder Abstände müssen im Renderer hartcodiert werden
-
 ## v0.4 – Formatierungs-Engine v1
 
 Ziele:

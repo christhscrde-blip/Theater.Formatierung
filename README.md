@@ -38,11 +38,6 @@ Mitgelieferte Styles:
 - `styles/classic.yaml`
 - `styles/minimal.yaml`
 
-
-## FormattingPlan
-
-Der `FormattingPlan` ist die abstrakte Zwischenschicht zwischen `DocumentModel` und einem späteren Renderer. Er verknüpft jedes Textsegment verlustfrei mit einem typisierten Style aus der Style Engine, prüft erneut die sichtbare Textintegrität und enthält keine Word- oder Renderer-spezifische Logik.
-
 ## Geplante Pipeline
 
 1. DOCX einlesen
@@ -69,21 +64,10 @@ python -m src.cli analyse samples/die_raeuber.docx --out reports
 
 ## Formatierung ausführen
 
-Die Formatierungs-CLI ist noch nicht implementiert. Bis zur Umsetzung der Formatierungs-Engine ist nur der Analysebefehl lauffähig.
-
-
-## Entwicklung
-
-Der Entwicklungsworkflow ist bewusst schlank. Vor einem Merge sollten dieselben Checks laufen wie in CI:
-
 ```bash
-git diff --check
-PYTHONPATH=. python -m py_compile src/*.py tests/*.py
-PYTHONPATH=. pytest -q
+python -m src.cli format samples/die_raeuber.docx --out output/die_raeuber_formatiert.docx --reports reports
 ```
-
-Weitere Details stehen in `CONTRIBUTING.md`.
 
 ## Status
 
-Aktuell sind Projektstruktur, Analyse-CLI, Klassifikation, Verifier, die Basis des internen `DocumentModel`, die Style Engine und das `FormattingPlan`-System angelegt. Als nächstes werden Klassifikation und Formatierungs-Engine weiter stabilisiert und mit Tests abgesichert.
+Aktuell sind Projektstruktur, Analyse-CLI, Klassifikation, Verifier, die Basis des internen `DocumentModel` und die Style Engine angelegt. Als nächstes werden Klassifikation und Formatierungs-Engine weiter stabilisiert und mit Tests abgesichert.

@@ -328,24 +328,6 @@ Regeln:
 - Der Formatter darf keine hartcodierten Farben, Schriftgrößen oder Abstände enthalten.
 - Die Style Engine verändert niemals sichtbaren Dokumenttext.
 
-
-## FormattingPlan
-
-Der `FormattingPlan` ist die rendererunabhängige Planungsschicht zwischen `DocumentModel` und späteren Ausgabe-Renderern. Er enthält keine DOCX-Schreiblogik.
-
-Bestandteile:
-
-- `FormattingPlan`: Quelle, sichtbarer Texthash, Style-Name und geordnete Absatzpläne.
-- `ParagraphFormattingPlan`: Absatzindex, Absatztyp, Sprecher, Prüffallstatus und Formatierungsläufe.
-- `FormattingRun`: Textsegment, `TextSpanType`, Sprecher, Flags und der zugehörige `TextStyle`.
-
-Integritätsregeln:
-
-- Die Verkettung aller `FormattingRun.text`-Werte eines Absatzes muss exakt den Absatztext rekonstruieren.
-- Die Verkettung aller Absatzpläne muss denselben sichtbaren Text und denselben SHA-256 wie das `DocumentModel` ergeben.
-- Ein Plan darf nur aus einem integren `DocumentModel` gebaut werden.
-- Der Plan verändert niemals sichtbaren Dokumenttext und rendert noch keine Word-Formatierung.
-
 ## Qualitätsregeln
 
 Ein Engine-Lauf ist nur erfolgreich, wenn:
