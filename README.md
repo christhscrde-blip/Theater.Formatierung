@@ -71,6 +71,19 @@ python -m src.cli analyse samples/die_raeuber.docx --out reports
 
 Die Formatierungs-CLI ist noch nicht implementiert. Bis zur Umsetzung der Formatierungs-Engine ist nur der Analysebefehl lauffähig.
 
+
+## Entwicklung
+
+Der Entwicklungsworkflow ist bewusst schlank. Vor einem Merge sollten dieselben Checks laufen wie in CI:
+
+```bash
+git diff --check
+PYTHONPATH=. python -m py_compile src/*.py tests/*.py
+PYTHONPATH=. pytest -q
+```
+
+Weitere Details stehen in `CONTRIBUTING.md`.
+
 ## Status
 
 Aktuell sind Projektstruktur, Analyse-CLI, Klassifikation, Verifier, die Basis des internen `DocumentModel`, die Style Engine und das `FormattingPlan`-System angelegt. Als nächstes werden Klassifikation und Formatierungs-Engine weiter stabilisiert und mit Tests abgesichert.

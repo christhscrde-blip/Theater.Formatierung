@@ -26,5 +26,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Check whitespace
+        run: git diff --check
+
+      - name: Compile Python files
+        run: PYTHONPATH=. python -m py_compile src/*.py tests/*.py
+
       - name: Run tests
-        run: pytest
+        run: PYTHONPATH=. pytest -q
