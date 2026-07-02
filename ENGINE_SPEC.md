@@ -107,9 +107,9 @@ Ortsangabe oder Szenenort.
 
 Beispiele:
 
-- `Saal im Moorischen Schloss.`
+- `Großer Saal im Stadttheater.`
 - `Schenke an den Grenzen von Sachsen.`
-- `Des alten Moors Schlafzimmer.`
+- `Kleines Zimmer im Haus.`
 
 Erkennung:
 
@@ -129,9 +129,9 @@ Figurenname ohne Replik im selben Absatz.
 
 Beispiele:
 
-- `Franz.`
-- `D. a. Moor.`
-- `Amalia.`
+- `FIGUR A.`
+- `FIGUR B.`
+- `CHOR.`
 
 Erkennung:
 
@@ -152,8 +152,8 @@ Figurenname mit Regie direkt am Sprecher.
 
 Beispiele:
 
-- `D. a. Moor (begierig).`
-- `Franz (liest).`
+- `FIGUR B (leise).`
+- `FIGUR A (liest).`
 
 Erkennung:
 
@@ -172,9 +172,9 @@ Figurenname und Replik im selben Absatz.
 
 Beispiele:
 
-- `Franz. Keinen andern, Amalia – ...`
-- `AMALIA. Karl!`
-- `Franz …hinter der Bühne: Und ich dachte er hätte zwei.`
+- `FIGUR A. Keinen anderen Weg – ...`
+- `FIGUR B. Figur A!`
+- `FIGUR A: Und ich dachte, es gäbe zwei.`
 
 Erkennung:
 
@@ -263,10 +263,10 @@ Die Engine führt kanonische Figurennamen. Unterschiedliche Schreibweisen werden
 
 Beispiele:
 
-- `Franz`, `FRANZ`, `Franz von Moor` -> `Franz`
-- `D. a. Moor`, `der alte Moor` -> `Der alte Moor`
-- `Moor`, `Karl v. Moor`, `Karl von Moor` -> `Karl von Moor`
-- `Amalia`, `AMALIA` -> `Amalia`
+- `FIGUR A`, `FIGUR A.` -> `Figur A`
+- `FIGUR B`, `FIGUR B.` -> `Figur B`
+- Profile können zusätzliche Aliasformen auf kanonische Sprechernamen abbilden.
+- `CHOR`, `CHOR.` -> `Chor`
 
 ## Schwierige Wörter
 

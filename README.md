@@ -2,7 +2,7 @@
 
 Eine kleine Engine, die Theatertexte in DOCX-Dateien analysiert, klassifiziert, formatiert und anschließend prüft, ohne den sichtbaren Textinhalt zu verändern.
 
-Das Projekt entsteht aus einer konkreten Theaterfassung von Schillers *Die Räuber*. Ziel ist aber ein allgemeineres Werkzeug für Theatermanuskripte.
+Das Projekt entsteht anhand von Referenzdokumenten, ist aber als allgemeines Werkzeug für Theatermanuskripte gedacht.
 
 ## Grundprinzip
 

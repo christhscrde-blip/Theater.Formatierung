@@ -15,7 +15,7 @@ def make_docx(path: Path, paragraphs: list[str]) -> None:
 def test_visible_hash_is_stable_for_same_text(tmp_path: Path):
     first = tmp_path / "first.docx"
     second = tmp_path / "second.docx"
-    paragraphs = ["Franz.", "Aber ist Euch auch wohl, Vater?"]
+    paragraphs = ["FIGUR A.", "Aber ist Euch auch wohl, Vater?"]
 
     make_docx(first, paragraphs)
     make_docx(second, paragraphs)
@@ -28,7 +28,7 @@ def test_visible_hash_changes_when_text_changes(tmp_path: Path):
     first = tmp_path / "first.docx"
     second = tmp_path / "second.docx"
 
-    make_docx(first, ["Franz."])
-    make_docx(second, ["Franz!"])
+    make_docx(first, ["FIGUR A."])
+    make_docx(second, ["FIGUR A!"])
 
     assert visible_text_hash(first) != visible_text_hash(second)
