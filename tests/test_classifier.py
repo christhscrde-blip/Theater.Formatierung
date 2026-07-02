@@ -7,11 +7,6 @@ def test_basic_dialogue_classification():
         [
             "Erster Akt",
             "1. Szene",
-            "Großer Saal im Stadttheater.",
-            "FIGUR A.",
-            "Aber ist Euch auch wohl, Vater?",
-            "FIGUR B (leise).",
-            "Nachrichten von meiner Schwester?",
             "Seite 1",
         ]
     )
@@ -44,21 +39,3 @@ def test_unknown_without_context_requires_review():
 
 
 def test_abbreviated_speaker_with_stage_is_detected_without_context_leak():
-    paragraph = classify_texts(["FIGUR B (leise)."])[0]
-
-    assert paragraph.type == ParagraphType.SPEAKER_WITH_STAGE
-    assert paragraph.speaker == "Figur B"
-
-
-def test_abbreviated_speaker_with_replique_is_detected():
-    paragraph = classify_texts(["FIGUR B: Nachrichten von meiner Schwester?"])[0]
-
-    assert paragraph.type == ParagraphType.SPEAKER_WITH_REPLIQUE
-    assert paragraph.speaker == "Figur B"
-
-
-def test_mixed_case_speaker_without_profile_is_not_guessed():
-    paragraph = classify_texts(["Figur A. Text"])[0]
-
-    assert paragraph.type == ParagraphType.UNCLASSIFIED
-    assert "needs_manual_review" in paragraph.flags

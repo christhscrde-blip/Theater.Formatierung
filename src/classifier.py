@@ -6,8 +6,7 @@ from pathlib import Path
 
 from .difficult_words import find_difficult_words
 from .models import AnalysisReport, ClassifiedParagraph, ParagraphType
-from .renderer.docx_access import paragraph_texts
-from .speaker_parser import parse_speaker_line
+
 from .verifier import visible_text_hash
 
 LOCATION_KEYWORDS = (

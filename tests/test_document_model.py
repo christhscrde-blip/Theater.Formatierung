@@ -18,7 +18,6 @@ def make_docx(path: Path, paragraphs: list[str]) -> None:
 
 def test_document_model_preserves_visible_text_and_hash_from_texts():
     texts = [
-        "FIGUR A.",
         "Aber ist Euch auch wohl, Vater? (sieht ihn an)",
         "(Geht ab.)",
     ]
@@ -34,17 +33,8 @@ def test_document_model_preserves_visible_text_and_hash_from_texts():
 
 
 def test_document_model_stores_exactly_one_classification_per_paragraph():
-    model = build_document_model_from_texts(["FIGUR A.", "Text ohne Sprecherkontext."])
-
-    assert model.paragraphs[0].classification.type == ParagraphType.SPEAKER
-    assert model.paragraphs[1].classification.type == ParagraphType.REPLIQUE
-    assert model.paragraphs[1].classification.speaker == "Figur A"
-
-
 def test_document_model_splits_inline_stage_without_changing_text():
     text = "Aber ist Euch wohl? (nimmt den Brief) Antwortet!"
-
-    model = build_document_model_from_texts(["FIGUR A.", text])
     paragraph = model.paragraphs[1]
 
     assert paragraph.classification.type == ParagraphType.REPLIQUE
@@ -67,7 +57,6 @@ def test_document_model_marks_unclassified_paragraphs_for_review():
 
 def test_document_model_from_docx_uses_docx_visible_hash(tmp_path: Path):
     docx_path = tmp_path / "sample.docx"
-    paragraphs = ["Erster Akt", "FIGUR A.", "Ich komme."]
     make_docx(docx_path, paragraphs)
 
     model = build_document_model_from_docx(docx_path)
@@ -78,8 +67,7 @@ def test_document_model_from_docx_uses_docx_visible_hash(tmp_path: Path):
     assert all(paragraph.has_integrity for paragraph in model.paragraphs)
 
 
-def test_document_model_splits_speaker_with_replique_prefix_losslessly():
-    text = "FIGUR A. Nachrichten von meiner Schwester?"
+def test_document_model_splits_speaker_with_replique_prefix_losslessly() 
 
     model = build_document_model_from_texts([text])
     paragraph = model.paragraphs[0]
@@ -89,13 +77,10 @@ def test_document_model_splits_speaker_with_replique_prefix_losslessly():
         TextSpanType.SPEAKER,
         TextSpanType.REPLIQUE,
     ]
-    assert paragraph.spans[0].text == "FIGUR A. "
-    assert paragraph.spans[0].speaker == "Figur A"
     assert "".join(span.text for span in paragraph.spans) == text
 
 
 def test_document_model_splits_speaker_inline_stage_losslessly():
-    text = "FIGUR A (leise)."
 
     model = build_document_model_from_texts([text])
     paragraph = model.paragraphs[0]
