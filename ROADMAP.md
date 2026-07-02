@@ -39,16 +39,14 @@ Erfolgskriterium:
 - alle bekannten Problemfälle haben Tests
 - keine Replik wird als Regie oder Sprecher fehlklassifiziert
 
-## v0.3 – Style Engine
-
-Status: umgesetzt
+## v0.3 – Style-Konfiguration
 
 Ziele:
 
-- `styles/theater.yaml` einführen – umgesetzt
-- Stylewerte aus Datei laden – umgesetzt
-- Farben, Größen und Abstände aus Code entfernen – vorbereitet; Formatter noch ausstehend
-- Theme-System vorbereiten – umgesetzt mit `theater`, `classic` und `minimal`
+- `styles/theater.yaml` einführen
+- Stylewerte aus Datei laden
+- Farben, Größen und Abstände aus Code entfernen
+- Theme-System vorbereiten
 
 Geplante Styles:
 
@@ -60,7 +58,6 @@ Erfolgskriterium:
 
 - Formatierungsregeln sind datengetrieben
 - Styles können geändert werden, ohne Python-Code anzufassen
-- Style-Dateien werden validiert und liefern typisierte Style-Objekte
 
 ## v0.4 – Formatierungs-Engine v1
 
@@ -108,13 +105,11 @@ Erfolgskriterium:
 
 ## v0.7 – DocumentModel
 
-Status: begonnen
-
 Ziele:
 
-- Word-Absätze in ein internes Dokumentmodell übertragen – Basis umgesetzt
-- Klassifikation, Sprecher, Regieanteile und schwierige Wörter getrennt speichern – Basis umgesetzt
-- Formatter arbeitet gegen das Modell, nicht direkt gegen rohe Word-Absätze – ausstehend
+- Word-Absätze in ein internes Dokumentmodell übertragen
+- Klassifikation, Sprecher, Regieanteile und schwierige Wörter getrennt speichern
+- Formatter arbeitet gegen das Modell, nicht direkt gegen rohe Word-Absätze
 
 Erfolgskriterium:
 

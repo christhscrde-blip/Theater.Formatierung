@@ -23,21 +23,6 @@ Erst danach wird formatiert. Wenn ein Absatz nicht sicher erkannt wird, wird er 
 
 Der sichtbare Text darf sich durch Formatierung nicht verändern. Dafür wird vor und nach jedem Lauf ein SHA-256-Hash über alle Absatztexte gebildet. Wenn der Hash abweicht, gilt die Ausgabe als fehlerhaft.
 
-## Internes DocumentModel
-
-Die Engine besitzt nun ein internes, texttreues `DocumentModel`. Es übernimmt DOCX-Absätze oder Textlisten, klassifiziert jeden Absatz genau einmal und speichert zusätzliche Segmente für Sprecher, Repliken und Inline-Regie. Jedes Modell prüft, dass aus den Segmenten wieder exakt derselbe sichtbare Text entsteht.
-
-
-## Style Engine
-
-Formatierungswerte liegen nicht im Formatter-Code. Die wiederverwendbare Style Engine lädt YAML-Dateien aus `styles/` und liefert typisierte `TextStyle`-Objekte für `TextSpanType`-Werte. Der spätere Formatter soll Farben, Schriftgrößen, Abstände und Ausrichtungen ausschließlich über diese Engine beziehen.
-
-Mitgelieferte Styles:
-
-- `styles/theater.yaml`
-- `styles/classic.yaml`
-- `styles/minimal.yaml`
-
 ## Geplante Pipeline
 
 1. DOCX einlesen
@@ -70,4 +55,4 @@ python -m src.cli format samples/die_raeuber.docx --out output/die_raeuber_forma
 
 ## Status
 
-Aktuell sind Projektstruktur, Analyse-CLI, Klassifikation, Verifier, die Basis des internen `DocumentModel` und die Style Engine angelegt. Als nächstes werden Klassifikation und Formatierungs-Engine weiter stabilisiert und mit Tests abgesichert.
+Aktuell ist die Projektstruktur angelegt. Als nächstes wird die Klassifikation stabilisiert, dann die Formatierungs-Engine gebaut und mit Tests abgesichert.
