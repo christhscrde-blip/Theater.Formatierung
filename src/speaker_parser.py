@@ -1,36 +1,22 @@
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass, field
+from typing import Mapping
 
-CHARACTER_ALIASES: dict[str, str] = {
-    "franz": "Franz",
-    "franz von moor": "Franz",
-    "d. a. moor": "Der alte Moor",
-    "der alte moor": "Der alte Moor",
-    "alter moor": "Der alte Moor",
-    "karl v. moor": "Karl von Moor",
-    "karl von moor": "Karl von Moor",
-    "moor": "Karl von Moor",
-    "amalia": "Amalia",
-    "spiegelberg": "Spiegelberg",
-    "schweizer": "Schweizer",
-    "roller": "Roller",
-    "razmann": "Razmann",
-    "schufterle": "Schufterle",
-    "hermann": "Hermann",
-    "daniel": "Daniel",
-    "kosinsky": "Kosinsky",
-    "schwarz": "Schwarz",
-    "grimm": "Grimm",
-    "ein räuber": "Ein Räuber",
-    "räuber": "Räuber",
-    "alle": "Alle",
-    "ein bedienter": "Ein Bedienter",
-    "bedienter": "Bedienter",
-    "pastor moser": "Pastor Moser",
-    "moser": "Moser",
-    "pater": "Pater",
-}
+CHARACTER_ALIASES: dict[str, str] = {}
+GENERIC_SPEAKER_PATTERN = re.compile(
+    r"^(?P<raw>[A-ZÄÖÜ][A-ZÄÖÜ0-9ÄÖÜẞ '\-]{0,59})"
+    r"(?P<stage>\s*\([^)]*\))?\s*[\.:]\s*(?P<after>.*)$"
+)
+
+
+@dataclass(frozen=True)
+class SpeakerProfile:
+    aliases: Mapping[str, str] = field(default_factory=dict)
+
+
+DEFAULT_SPEAKER_PROFILE = SpeakerProfile()
 
 
 def normalize_name(text: str) -> str:
@@ -40,16 +26,28 @@ def normalize_name(text: str) -> str:
     return text.lower()
 
 
-def parse_speaker_line(text: str) -> dict[str, str] | None:
+def parse_speaker_line(
+    text: str, profile: SpeakerProfile | None = None
+) -> dict[str, str] | None:
     stripped = text.strip()
-    lowered = stripped.lower()
+    speaker_profile = profile or DEFAULT_SPEAKER_PROFILE
+    return _parse_profile_speaker(stripped, speaker_profile) or _parse_generic_speaker(
+        stripped
+    )
 
-    for alias in sorted(CHARACTER_ALIASES, key=len, reverse=True):
+
+def _parse_profile_speaker(text: str, profile: SpeakerProfile) -> dict[str, str] | None:
+    lowered = text.lower()
+    aliases = {
+        normalize_name(alias): canonical for alias, canonical in profile.aliases.items()
+    }
+
+    for alias in sorted(aliases, key=len, reverse=True):
         if not lowered.startswith(alias):
             continue
 
-        raw_name = stripped[: len(alias)].strip()
-        remainder = stripped[len(alias) :]
+        raw_name = text[: len(alias)].strip()
+        remainder = text[len(alias) :]
         match = re.match(
             r"^\s*(?P<stage>\([^)]*\))?\s*[\.:]\s*(?P<after>.*)$",
             remainder,
@@ -57,11 +55,49 @@ def parse_speaker_line(text: str) -> dict[str, str] | None:
         if not match:
             continue
 
-        return {
-            "raw": raw_name,
-            "canonical": CHARACTER_ALIASES[alias],
-            "stage_inline": (match.group("stage") or "").strip(),
-            "after": (match.group("after") or "").strip(),
-        }
+        return _speaker_result(
+            raw=raw_name,
+            canonical=aliases[alias],
+            stage_inline=match.group("stage") or "",
+            after=match.group("after") or "",
+        )
 
     return None
+
+
+def _parse_generic_speaker(text: str) -> dict[str, str] | None:
+    match = GENERIC_SPEAKER_PATTERN.match(text)
+    if not match:
+        return None
+
+    raw_name = match.group("raw").strip()
+    if not _is_generic_speaker_label(raw_name):
+        return None
+
+    return _speaker_result(
+        raw=raw_name,
+        canonical=_canonical_generic_name(raw_name),
+        stage_inline=match.group("stage") or "",
+        after=match.group("after") or "",
+    )
+
+
+def _is_generic_speaker_label(raw_name: str) -> bool:
+    return raw_name == raw_name.upper() and any(
+        character.isalpha() for character in raw_name
+    )
+
+
+def _canonical_generic_name(raw_name: str) -> str:
+    return " ".join(part.capitalize() for part in raw_name.split())
+
+
+def _speaker_result(
+    raw: str, canonical: str, stage_inline: str, after: str
+) -> dict[str, str]:
+    return {
+        "raw": raw.strip(),
+        "canonical": canonical.strip(),
+        "stage_inline": stage_inline.strip(),
+        "after": after.strip(),
+    }

@@ -4,11 +4,10 @@ import re
 from collections import Counter
 from pathlib import Path
 
-from docx import Document
-
 from .difficult_words import find_difficult_words
 from .models import AnalysisReport, ClassifiedParagraph, ParagraphType
-from .speaker_parser import CHARACTER_ALIASES, normalize_name, parse_speaker_line
+from .renderer.docx_access import paragraph_texts
+from .speaker_parser import parse_speaker_line
 from .verifier import visible_text_hash
 
 LOCATION_KEYWORDS = (
@@ -134,8 +133,7 @@ def classify_texts(texts: list[str]) -> list[ClassifiedParagraph]:
 
 
 def classify_docx(docx_path: str | Path) -> list[ClassifiedParagraph]:
-    doc = Document(str(docx_path))
-    return classify_texts([paragraph.text for paragraph in doc.paragraphs])
+    return classify_texts(paragraph_texts(docx_path))
 
 
 def build_report(

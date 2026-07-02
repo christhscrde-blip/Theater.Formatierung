@@ -2,7 +2,7 @@
 
 Eine kleine Engine, die Theatertexte in DOCX-Dateien analysiert, klassifiziert, formatiert und anschließend prüft, ohne den sichtbaren Textinhalt zu verändern.
 
-Das Projekt entsteht aus einer konkreten Theaterfassung von Schillers *Die Räuber*. Ziel ist aber ein allgemeineres Werkzeug für Theatermanuskripte.
+Das Projekt entsteht anhand von Referenzdokumenten, ist aber als allgemeines Werkzeug für Theatermanuskripte gedacht.
 
 ## Grundprinzip
 
@@ -22,10 +22,6 @@ Erst danach wird formatiert. Wenn ein Absatz nicht sicher erkannt wird, wird er 
 ## Sicherheitsregel
 
 Der sichtbare Text darf sich durch Formatierung nicht verändern. Dafür wird vor und nach jedem Lauf ein SHA-256-Hash über alle Absatztexte gebildet. Wenn der Hash abweicht, gilt die Ausgabe als fehlerhaft.
-
-## Internes DocumentModel
-
-Die Engine besitzt nun ein internes, texttreues `DocumentModel`. Es übernimmt DOCX-Absätze oder Textlisten, klassifiziert jeden Absatz genau einmal und speichert zusätzliche Segmente für Sprecher, Repliken und Inline-Regie. Jedes Modell prüft, dass aus den Segmenten wieder exakt derselbe sichtbare Text entsteht.
 
 ## Geplante Pipeline
 
@@ -53,8 +49,10 @@ python -m src.cli analyse samples/die_raeuber.docx --out reports
 
 ## Formatierung ausführen
 
-Die Formatierungs-CLI ist noch nicht implementiert. Bis zur Umsetzung der Formatierungs-Engine ist nur der Analysebefehl lauffähig.
+```bash
+python -m src.cli format samples/die_raeuber.docx --out output/die_raeuber_formatiert.docx --reports reports
+```
 
 ## Status
 
-Aktuell sind Projektstruktur, Analyse-CLI, Klassifikation, Verifier und die Basis des internen `DocumentModel` angelegt. Als nächstes werden Klassifikation und Formatierungs-Engine weiter stabilisiert und mit Tests abgesichert.
+Aktuell ist die Projektstruktur angelegt. Als nächstes wird die Klassifikation stabilisiert, dann die Formatierungs-Engine gebaut und mit Tests abgesichert.
