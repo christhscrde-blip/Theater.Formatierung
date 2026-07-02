@@ -1,5 +1,3 @@
-"""DocumentModel regression tests restored after merge-conflict resolution."""
-
 from pathlib import Path
 
 from docx import Document

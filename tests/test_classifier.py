@@ -1,5 +1,3 @@
-"""Classifier regression tests restored after merge-conflict resolution."""
-
 from src.classifier import classify_texts
 from src.models import ParagraphType
 
