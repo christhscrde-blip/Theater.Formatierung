@@ -121,18 +121,18 @@ Erfolgskriterium:
 Ziele:
 
 - autorenspezifische Regeln ermöglichen
-- `plugins/schiller.py` vorbereiten
-- später Goethe, Shakespeare, Ibsen usw. möglich machen
+- `plugins/example_profile.py` vorbereiten
+- später unterschiedliche Autor-, Sprach- und Editionsprofile ermöglichen
 
 Erfolgskriterium:
 
-- Schiller-spezifische Schreibweisen können getrennt gepflegt werden
+- Autor- oder stückspezifische Schreibweisen können getrennt gepflegt werden
 
 ## v0.9 – Probenfassung
 
 Ziele:
 
-- vollständige Fassung von `Die Räuber` formatieren
+- vollständige Referenzfassung formatieren
 - manuelle Prüffälle minimieren
 - visuelle Kontrolle wichtiger Seiten
 - finale QA
