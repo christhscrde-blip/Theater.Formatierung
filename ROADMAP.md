@@ -105,13 +105,11 @@ Erfolgskriterium:
 
 ## v0.7 – DocumentModel
 
-Status: begonnen
-
 Ziele:
 
-- Word-Absätze in ein internes Dokumentmodell übertragen – Basis umgesetzt
-- Klassifikation, Sprecher, Regieanteile und schwierige Wörter getrennt speichern – Basis umgesetzt
-- Formatter arbeitet gegen das Modell, nicht direkt gegen rohe Word-Absätze – ausstehend
+- Word-Absätze in ein internes Dokumentmodell übertragen
+- Klassifikation, Sprecher, Regieanteile und schwierige Wörter getrennt speichern
+- Formatter arbeitet gegen das Modell, nicht direkt gegen rohe Word-Absätze
 
 Erfolgskriterium:
 
@@ -123,18 +121,18 @@ Erfolgskriterium:
 Ziele:
 
 - autorenspezifische Regeln ermöglichen
-- `plugins/schiller.py` vorbereiten
-- später Goethe, Shakespeare, Ibsen usw. möglich machen
+- `plugins/example_profile.py` vorbereiten
+- später unterschiedliche Autor-, Sprach- und Editionsprofile ermöglichen
 
 Erfolgskriterium:
 
-- Schiller-spezifische Schreibweisen können getrennt gepflegt werden
+- Autor- oder stückspezifische Schreibweisen können getrennt gepflegt werden
 
 ## v0.9 – Probenfassung
 
 Ziele:
 
-- vollständige Fassung von `Die Räuber` formatieren
+- vollständige Referenzfassung formatieren
 - manuelle Prüffälle minimieren
 - visuelle Kontrolle wichtiger Seiten
 - finale QA

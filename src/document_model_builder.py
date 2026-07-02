@@ -3,19 +3,17 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-from docx import Document
-
 from .classifier import classify_texts
 from .document_model_types import DocumentModel, DocumentParagraph
 from .document_spans import build_spans
 from .models import ClassifiedParagraph
+from .renderer.docx_access import paragraph_texts
 from .verifier import visible_text_hash
 
 
 def build_document_model_from_docx(docx_path: str | Path) -> DocumentModel:
     path = Path(docx_path)
-    doc = Document(str(path))
-    texts = [paragraph.text for paragraph in doc.paragraphs]
+    texts = paragraph_texts(path)
     return build_document_model_from_texts(
         texts,
         source_file=str(path),
