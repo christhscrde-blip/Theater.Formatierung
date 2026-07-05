@@ -32,9 +32,10 @@ def test_format_docx_keeps_visible_text_for_generated_mini_scene(tmp_path: Path)
     _write_mini_theater_scene(input_docx)
     before_hash = visible_text_hash(input_docx)
 
-    rendered_path = format_docx(input_docx, output_docx)
+    report = format_docx(input_docx, output_docx)
 
-    assert rendered_path == output_docx
+    assert report.output_file == output_docx
     assert output_docx.exists()
+    assert report.visible_text_integrity is True
     assert visible_text_hash(output_docx) == before_hash
     assert_visible_text_unchanged(input_docx, output_docx)
