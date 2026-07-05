@@ -1,0 +1,22 @@
+[build-system]
+requires = []
+build-backend = "build_backend"
+backend-path = ["."]
+
+[project]
+name = "theater-formatierung"
+version = "0.1.0a1"
+description = "DOCX analysis and formatting tools for theater manuscripts with visible-text integrity checks."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "python-docx>=1.1.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[project.scripts]
+theater-formatierung = "src.cli:main"
