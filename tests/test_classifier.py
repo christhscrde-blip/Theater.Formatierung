@@ -62,3 +62,51 @@ def test_mixed_case_speaker_without_profile_is_not_guessed():
 
     assert paragraph.type == ParagraphType.UNCLASSIFIED
     assert "needs_manual_review" in paragraph.flags
+
+
+def test_roman_numeral_act_and_scene_headings_are_detected():
+    paragraphs = classify_texts(["I. Akt", "IV. Scene"])
+
+    assert paragraphs[0].type == ParagraphType.ACT_HEADING
+    assert paragraphs[1].type == ParagraphType.SCENE_HEADING
+
+
+def test_scene_numbering_variants_are_detected():
+    paragraphs = classify_texts(["2te Szene", "3. Auftritt", "Zweiter Aufzug"])
+
+    assert paragraphs[0].type == ParagraphType.SCENE_HEADING
+    assert paragraphs[1].type == ParagraphType.SCENE_HEADING
+    assert paragraphs[2].type == ParagraphType.ACT_HEADING
+
+
+def test_common_ocr_mistakes_in_headings_are_detected_without_text_changes():
+    paragraphs = classify_texts(["Seite l", "Erster Akl", "Zweite Scenc"])
+
+    assert paragraphs[0].type == ParagraphType.PAGE_MARKER
+    assert paragraphs[1].type == ParagraphType.ACT_HEADING
+    assert paragraphs[2].type == ParagraphType.SCENE_HEADING
+    assert [paragraph.text for paragraph in paragraphs] == [
+        "Seite l",
+        "Erster Akl",
+        "Zweite Scenc",
+    ]
+
+
+def test_uncommon_speaker_labels_are_detected():
+    paragraphs = classify_texts(
+        [
+            "2. WÄCHTER.",
+            "Wer geht da?",
+            "DIE KÖNIGIN-MUTTER:",
+            "Schweigt!",
+        ]
+    )
+
+    assert paragraphs[0].type == ParagraphType.SPEAKER
+    assert paragraphs[0].speaker == "2. Wächter"
+    assert paragraphs[1].type == ParagraphType.REPLIQUE
+    assert paragraphs[1].speaker == "2. Wächter"
+    assert paragraphs[2].type == ParagraphType.SPEAKER
+    assert paragraphs[2].speaker == "Die Königin-Mutter"
+    assert paragraphs[3].type == ParagraphType.REPLIQUE
+    assert paragraphs[3].speaker == "Die Königin-Mutter"
