@@ -6,7 +6,8 @@ from typing import Mapping
 
 CHARACTER_ALIASES: dict[str, str] = {}
 GENERIC_SPEAKER_PATTERN = re.compile(
-    r"^(?P<raw>[A-ZÄÖÜ][A-ZÄÖÜ0-9ÄÖÜẞ '\-]{0,59})"
+    r"^(?P<raw>(?:\d+\.\s*)?[A-ZÄÖÜ]"
+    r"[A-ZÄÖÜ0-9ÄÖÜẞ '\-,]{0,59})"
     r"(?P<stage>\s*\([^)]*\))?\s*[\.:]\s*(?P<after>.*)$"
 )
 
@@ -89,7 +90,11 @@ def _is_generic_speaker_label(raw_name: str) -> bool:
 
 
 def _canonical_generic_name(raw_name: str) -> str:
-    return " ".join(part.capitalize() for part in raw_name.split())
+    return " ".join(_capitalize_name_part(part) for part in raw_name.split())
+
+
+def _capitalize_name_part(part: str) -> str:
+    return "-".join(segment.capitalize() for segment in part.split("-"))
 
 
 def _speaker_result(

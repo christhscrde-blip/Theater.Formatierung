@@ -26,26 +26,58 @@ LOCATION_KEYWORDS = (
 )
 
 
+ORDINAL_WORDS = (
+    "Erste|Zweite|Dritte|Vierte|Fünfte|"
+    "Erster|Zweiter|Dritter|Vierter|Fünfter"
+)
+ROMAN_NUMERAL = r"[IVXLCDM]+"
+ARABIC_SCENE_NUMBER = r"\d+(?:\.|te|ter)?"
+
+
+def _normalize_heading_ocr(text: str) -> str:
+    normalized = text.strip()
+    normalized = re.sub(r"\s+", " ", normalized)
+    replacements = {
+        "Akl": "Akt",
+        "Acl": "Act",
+        "Scenc": "Scene",
+        "Sccne": "Scene",
+        "Szcne": "Szene",
+    }
+    for wrong, right in replacements.items():
+        normalized = re.sub(wrong, right, normalized, flags=re.IGNORECASE)
+    return normalized
+
+
 def is_page_marker(text: str) -> bool:
-    return bool(re.fullmatch(r"Seite\s+\d+", text.strip(), flags=re.IGNORECASE))
+    stripped = text.strip()
+    return bool(
+        re.fullmatch(r"Seite\s+(?:\d+|[Il])", stripped, flags=re.IGNORECASE)
+    )
 
 
 def is_act_heading(text: str) -> bool:
+    stripped = _normalize_heading_ocr(text)
     return bool(
         re.fullmatch(
-            r"(Erster|Zweiter|Dritter|Vierter|Fünfter)\s+Akt\.?",
-            text.strip(),
+            rf"(?:{ORDINAL_WORDS}|{ROMAN_NUMERAL})\.?\s+(?:Akt|Aufzug)\.?",
+            stripped,
             flags=re.IGNORECASE,
         )
     )
 
 
 def is_scene_heading(text: str) -> bool:
-    stripped = text.strip()
+    stripped = _normalize_heading_ocr(text)
     return bool(
-        re.fullmatch(r"\d+\.\s*Szene\.?", stripped, flags=re.IGNORECASE)
+        re.fullmatch(
+            rf"(?:{ARABIC_SCENE_NUMBER}|{ROMAN_NUMERAL})"
+            r"\s*\.?\s*(?:Szene|Scene|Auftritt)\.?",
+            stripped,
+            flags=re.IGNORECASE,
+        )
         or re.fullmatch(
-            r"(Erste|Zweite|Dritte|Vierte|Fünfte)\s+Sc?ene\.?",
+            rf"(?:{ORDINAL_WORDS})\s+(?:Szene|Scene|Auftritt)\.?",
             stripped,
             flags=re.IGNORECASE,
         )
